@@ -1,6 +1,12 @@
 # 🟢 leetcode-archiver
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 A production-grade LeetCode historical submission archiver that syncs all accepted submissions to GitHub while preserving original submission timestamps.
+
+> **Suggested GitHub repository description:** Archive all accepted LeetCode submissions to Git with original submission timestamps preserved.
 
 ---
 
