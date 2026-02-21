@@ -6,8 +6,6 @@
 
 A production-grade LeetCode historical submission archiver that syncs all accepted submissions to GitHub while preserving original submission timestamps.
 
-> **Suggested GitHub repository description:** Archive all accepted LeetCode submissions to Git with original submission timestamps preserved.
-
 ---
 
 ## 📌 Table of Contents
@@ -300,7 +298,8 @@ Ensures idempotency and prevents accidental overwrites.
 
 - glsync: https://github.com/ahmed-e-abdulaziz/glsync  
 - LeetCode Progress Page: https://leetcode.com/progress/  
-- LeetCode GraphQL endpoint: https://leetcode.com/graphql  
+- LeetCode GraphQL endpoint: https://leetcode.com/graphql
+- alfa-leetcode-api: https://github.com/alfaarghya/alfa-leetcode-api 
 
 ---
 
