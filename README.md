@@ -246,18 +246,14 @@ cd leetcode-archiver
 pip install -r requirements.txt
 ```
 
-### 3. Add cookies
+### 3. Export auth tokens
 
-Edit:
+Set environment variables before running:
 
+```bash
+export LEETCODE_SESSION="<your_session_cookie>"
+export CSRF_TOKEN="<your_csrf_token>"
 ```
-archiver/config.py
-```
-
-Add:
-
-- LEETCODE_SESSION
-- CSRF_TOKEN
 
 ### 4. Run
 
