@@ -1,6 +1,12 @@
 # 🟢 leetcode-archiver
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 A production-grade LeetCode historical submission archiver that syncs all accepted submissions to GitHub while preserving original submission timestamps.
+
+> **Suggested GitHub repository description:** Archive all accepted LeetCode submissions to Git with original submission timestamps preserved.
 
 ---
 
@@ -246,18 +252,14 @@ cd leetcode-archiver
 pip install -r requirements.txt
 ```
 
-### 3. Add cookies
+### 3. Export auth tokens
 
-Edit:
+Set environment variables before running:
 
+```bash
+export LEETCODE_SESSION="<your_session_cookie>"
+export CSRF_TOKEN="<your_csrf_token>"
 ```
-archiver/config.py
-```
-
-Add:
-
-- LEETCODE_SESSION
-- CSRF_TOKEN
 
 ### 4. Run
 

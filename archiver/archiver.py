@@ -6,12 +6,13 @@ from .leetcode_api import (
     fetch_submission_code,
 )
 from .git_manager import commit_file
-from .config import COOLING_INTERVAL, COOLING_DURATION
+from .config import COOLING_INTERVAL, COOLING_DURATION, validate_auth_config
 from .logger import log
 
 
 def run_archiver():
     log("===== STARTING LEETCODE ARCHIVER =====")
+    validate_auth_config()
 
     questions = fetch_all_questions()
     total = len(questions)
