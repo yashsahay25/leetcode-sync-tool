@@ -15,6 +15,13 @@ def run_archiver():
     validate_auth_config()
 
     questions = fetch_all_questions()
+
+    if not questions:
+    raise RuntimeError(
+        "Authentication failed or no solved questions found. "
+        "Please update LEETCODE_SESSION and CSRF_TOKEN."
+    )
+    
     total = len(questions)
 
     for idx, q in enumerate(questions, start=1):
