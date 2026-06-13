@@ -2,7 +2,7 @@
 
 A Python-based sync tool that fetches accepted LeetCode submissions and commits them to a separate archive repository while preserving the original submission timestamps.
 
-This repository contains the sync/automation code. The submission store is intended to live in:
+This repository contains the sync/automation code. The submission store lives in:
 
 ```text
 yashsahay25/leetcode-submissions-archive
@@ -118,10 +118,10 @@ export LEETCODE_SESSION="<your_session_cookie>"
 export CSRF_TOKEN="<your_csrf_token>"
 ```
 
-Run the sync entrypoint:
+Run the sync entrypoint from the archive repository checkout so files are written and committed there:
 
 ```bash
-python -m archiver.main
+PYTHONPATH=/path/to/leetcode-sync-tool python -m archiver.main
 ```
 
 ## GitHub Actions
@@ -132,16 +132,26 @@ The scheduled workflow is defined at:
 .github/workflows/leetcode-sync.yml
 ```
 
-It currently runs daily at `12:30 AM IST` and can also be triggered manually from the Actions tab.
+It runs daily at `12:30 AM IST` and can also be triggered manually from the Actions tab.
 
-Required repository secrets:
+The workflow checks out two repositories:
+
+```text
+sync-tool/ -> yashsahay25/leetcode-sync-tool
+archive/   -> yashsahay25/leetcode-submissions-archive
+```
+
+It installs dependencies from `sync-tool`, runs the Python package with `archive` as the working directory, and pushes any new commits to `yashsahay25/leetcode-submissions-archive`.
+
+Required `leetcode-sync-tool` repository secrets:
 
 ```text
 LEETCODE_SESSION
 CSRF_TOKEN
+ARCHIVE_REPO_TOKEN
 ```
 
-The workflow should be updated to checkout and push into `yashsahay25/leetcode-submissions-archive` as the target archive repository.
+`ARCHIVE_REPO_TOKEN` should be a GitHub personal access token or fine-grained token with write access to `yashsahay25/leetcode-submissions-archive` contents. The default `GITHUB_TOKEN` from `leetcode-sync-tool` is scoped to the sync-tool repository, so it should not be relied on for pushing to the separate archive repository.
 
 ## Notes
 
