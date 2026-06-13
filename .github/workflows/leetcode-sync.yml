@@ -7,7 +7,7 @@ on:
     - cron: "0 19 * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: leetcode-sync
@@ -18,11 +18,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout sync tool
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
+          path: sync-tool
+
+      - name: Checkout submissions archive
+        uses: actions/checkout@v4
+        with:
+          repository: yashsahay25/leetcode-submissions-archive
+          token: ${{ secrets.ARCHIVE_REPO_TOKEN }}
+          fetch-depth: 0
+          path: archive
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,20 +38,25 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
+        working-directory: sync-tool
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Configure Git author
+      - name: Configure archive Git author
+        working-directory: archive
         run: |
-          git config user.name "leetcode-archiver[bot]"
-          git config user.email "leetcode-archiver[bot]@users.noreply.github.com"
+          git config user.name "leetcode-sync-tool[bot]"
+          git config user.email "leetcode-sync-tool[bot]@users.noreply.github.com"
 
-      - name: Sync accepted submissions
+      - name: Sync accepted submissions into archive
+        working-directory: archive
         env:
+          PYTHONPATH: ${{ github.workspace }}/sync-tool
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
           CSRF_TOKEN: ${{ secrets.CSRF_TOKEN }}
         run: python -m archiver.main
 
       - name: Push archive commits
+        working-directory: archive
         run: git push
