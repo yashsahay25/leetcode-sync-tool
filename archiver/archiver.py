@@ -29,7 +29,7 @@ def run_archiver():
             submission_id = sub["id"]
             timestamp = sub["timestamp"]
 
-            filename = f"{frontend_id}_{slug}_{submission_id}.cpp"
+            filename = f"{int(frontend_id):05d}_{slug}_{submission_id}.cpp"
 
             if os.path.exists(filename):
                 log(f"Skipping existing: {filename}")
