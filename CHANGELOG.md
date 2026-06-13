@@ -13,6 +13,8 @@ When changes are made directly on the `main` branch, add them under the appropri
 - Added the `ARCHIVE_REPO_TOKEN` setup requirement for cross-repository pushes.
 - Added this changelog and established date-grouped tracking for future `main` branch changes.
 - Expanded the changelog with the earlier February 2026 project setup and hardening changes.
+- Added `docs/ARCHITECTURE.md` with high-level architecture, scheduled workflow, runtime flow, package component, idempotency, authentication, and retry diagrams.
+- Linked the architecture documentation from `README.md` and updated the project structure listing.
 
 ## 2026-06-13
 
