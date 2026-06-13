@@ -47,6 +47,8 @@ Contains the archived LeetCode submission files and the historical commit timeli
 
 ## Architecture
 
+For a detailed view of the system design, workflow, runtime flow, and idempotency model, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ```text
 archiver/main.py
    -> archiver/archiver.py
@@ -82,6 +84,9 @@ leetcode-sync-tool/
   .github/
     workflows/
       leetcode-sync.yml
+  docs/
+    ARCHITECTURE.md
+  CHANGELOG.md
   requirements.txt
   README.md
 ```
