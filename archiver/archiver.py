@@ -17,10 +17,10 @@ def run_archiver():
     questions = fetch_all_questions()
 
     if not questions:
-    raise RuntimeError(
-        "Authentication failed or no solved questions found. "
-        "Please update LEETCODE_SESSION and CSRF_TOKEN."
-    )
+        raise RuntimeError(
+            "Authentication failed or no solved questions found. "
+            "Please update LEETCODE_SESSION and CSRF_TOKEN."
+        )
     
     total = len(questions)
 
