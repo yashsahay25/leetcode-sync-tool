@@ -1,7 +1,7 @@
 import time
 import random
 from .graphql_client import safe_post
-from .config import DELAY_MIN, DELAY_MAX, AUTH_ERROR
+from .config import DELAY_MIN, DELAY_MAX, AUTH_ERROR_MESSAGE
 from .logger import log
 
 
@@ -35,14 +35,9 @@ def fetch_all_questions():
         data = safe_post(payload, "Fetch Questions")
         progress = data.get("data", {}).get("userProgressQuestionList")
         if progress is None:
-            raise RuntimeError(AUTH_ERROR)
-        if progress is None:
-            raise RuntimeError(
-                "LeetCode returned null for userProgressQuestionList. "
-                "Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
-            )
+            raise RuntimeError(AUTH_ERROR_MESSAGE)
+            
         batch = progress["questions"]
-
         if not batch:
             break
 
