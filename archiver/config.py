@@ -22,19 +22,24 @@ MAX_RETRIES = 10
 COOLING_INTERVAL = 25
 COOLING_DURATION = 30
 
-
-def validate_auth_config():
-    """Fail fast when auth tokens are missing."""
-    if not LEETCODE_SESSION or not CSRF_TOKEN:
-        raise ValueError(
-            "Missing LeetCode auth credentials. Set LEETCODE_SESSION and CSRF_TOKEN environment variables."
-        )
-
+# Authentication Error Message
 AUTH_ERROR_MESSAGE = (
     "Authentication failed. Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
 )
 
+# Missing Auth credentials Error Message
 MISSING_AUTH_MESSAGE = (
     "Missing LeetCode auth credentials. "
     "Set LEETCODE_SESSION and CSRF_TOKEN environment variables."
 )
+
+def validate_auth_config():
+    """Fail fast when auth tokens are missing."""
+    if not LEETCODE_SESSION or not CSRF_TOKEN:
+        raise ValueError(MISSING_AUTH_MESSAGE)
+
+def raise_auth_error(context: str = ""):
+    """Raise a consistent auth failure with optional debug context."""
+    if context:
+        raise RuntimeError(f"{context} {AUTH_ERROR_MESSAGE}")
+    raise RuntimeError(AUTH_ERROR_MESSAGE)
