@@ -4,6 +4,7 @@ from .leetcode_api import (
     fetch_all_questions,
     fetch_accepted_submissions,
     fetch_submission_code,
+    validate_leetcode_session
 )
 from .git_manager import commit_file
 from .config import COOLING_INTERVAL, COOLING_DURATION, validate_auth_config
@@ -13,6 +14,7 @@ from .logger import log
 def run_archiver():
     log("===== STARTING LEETCODE ARCHIVER =====")
     validate_auth_config()
+    validate_leetcode_session()   # add import from leetcode_api
 
     questions = fetch_all_questions()
 
