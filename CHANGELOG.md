@@ -7,7 +7,7 @@ When changes are made directly on the `main` branch, add them under the appropri
 ## 2026-06-25
 
 - Fixed a `TypeError` when LeetCode returns `null` for `userProgressQuestionList` (expired or invalid session cookies).
-- Added a shared `AUTH_ERROR` message in `config.py` so auth failures point to updating `LEETCODE_SESSION` and `CSRF_TOKEN` in GitHub secrets.
+- Added a shared `AUTH_ERROR_MESSAGE` in `config.py` so auth failures point to updating `LEETCODE_SESSION` and `CSRF_TOKEN` in GitHub secrets.
 - Added a null check in `fetch_all_questions()` before reading submission data, so the sync fails with a clear auth error instead of crashing.
 - Kept `validate_auth_config()` to fail fast when LeetCode credentials are not set in the environment.
 - Simplified auth handling by removing the startup `validate_leetcode_session()` probe and extra auth helper code added during debugging.
