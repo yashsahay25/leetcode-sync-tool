@@ -29,3 +29,7 @@ def validate_auth_config():
         raise ValueError(
             "Missing LeetCode auth credentials. Set LEETCODE_SESSION and CSRF_TOKEN environment variables."
         )
+
+AUTH_ERROR_MESSAGE = (
+    "Authentication failed. Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
+)
