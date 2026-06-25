@@ -10,7 +10,31 @@ def human_delay():
     log(f"Sleeping {sleep_time:.2f}s")
     time.sleep(sleep_time)
 
-
+def validate_leetcode_session():
+    """Verify the session is still signed in before starting the sync."""
+    
+    payload = {
+        "query": """
+        query {
+          userStatus {
+            isSignedIn
+            username
+          }
+        }
+        """
+    }
+    
+    data = safe_post(payload, "Validate Session")
+    status = data.get("data", {}).get("userStatus")
+    
+    if not status or not status.get("isSignedIn"):
+        raise RuntimeError(
+            "LeetCode session is not signed in. "
+            "Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
+        )
+    
+    log(f"Authenticated as: {status.get('username')}")
+    
 def fetch_all_questions():
     questions = []
     skip = 0
