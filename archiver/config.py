@@ -29,4 +29,4 @@ AUTH_ERROR_MESSAGE = (
 
 def validate_auth_config():
     if not LEETCODE_SESSION or not CSRF_TOKEN:
-        raise ValueError(AUTH_ERROR)
+        raise ValueError(AUTH_ERROR_MESSAGE)
