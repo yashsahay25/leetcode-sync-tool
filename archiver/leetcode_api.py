@@ -1,7 +1,7 @@
 import time
 import random
 from .graphql_client import safe_post
-from .config import DELAY_MIN, DELAY_MAX
+from .config import DELAY_MIN, DELAY_MAX, AUTH_ERROR
 from .logger import log
 
 
@@ -9,31 +9,6 @@ def human_delay():
     sleep_time = random.uniform(DELAY_MIN, DELAY_MAX)
     log(f"Sleeping {sleep_time:.2f}s")
     time.sleep(sleep_time)
-
-def validate_leetcode_session():
-    """Verify the session is still signed in before starting the sync."""
-    
-    payload = {
-        "query": """
-        query {
-          userStatus {
-            isSignedIn
-            username
-          }
-        }
-        """
-    }
-    
-    data = safe_post(payload, "Validate Session")
-    status = data.get("data", {}).get("userStatus")
-    
-    if not status or not status.get("isSignedIn"):
-        raise RuntimeError(
-            "LeetCode session is not signed in. "
-            "Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
-        )
-    
-    log(f"Authenticated as: {status.get('username')}")
     
 def fetch_all_questions():
     questions = []
@@ -57,10 +32,10 @@ def fetch_all_questions():
             }
         }
 
-        # data = safe_post(payload, "Fetch Questions")
-        # batch = data["data"]["userProgressQuestionList"]["questions"]
         data = safe_post(payload, "Fetch Questions")
         progress = data.get("data", {}).get("userProgressQuestionList")
+        if progress is None:
+            raise RuntimeError(AUTH_ERROR)
         if progress is None:
             raise RuntimeError(
                 "LeetCode returned null for userProgressQuestionList. "
@@ -110,8 +85,8 @@ def fetch_accepted_submissions(slug):
         }
 
         data = safe_post(payload, f"Fetch Submissions: {slug}")
-        # result = data["data"]["userProgressSubmissionList"]
-        result = data.get("data", {}).get("userProgressSubmissionList")
+        result = data["data"]["userProgressSubmissionList"]
+        
         if result is None:
             raise RuntimeError(
                 f"LeetCode returned null for userProgressSubmissionList ({slug}). "
@@ -148,12 +123,5 @@ def fetch_submission_code(submission_id):
 
     data = safe_post(payload, f"Fetch Code: {submission_id}")
     human_delay()
-
-    # return data["data"]["submissionDetails"]["code"]
-    details = data.get("data", {}).get("submissionDetails")
-    if details is None:
-        raise RuntimeError(
-            f"LeetCode returned null for submissionDetails ({submission_id}). "
-            "Refresh LEETCODE_SESSION and CSRF_TOKEN."
-        )
-    return details["code"]
+    
+    return data["data"]["submissionDetails"]["code"]
