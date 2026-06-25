@@ -57,8 +57,16 @@ def fetch_all_questions():
             }
         }
 
+        # data = safe_post(payload, "Fetch Questions")
+        # batch = data["data"]["userProgressQuestionList"]["questions"]
         data = safe_post(payload, "Fetch Questions")
-        batch = data["data"]["userProgressQuestionList"]["questions"]
+        progress = data.get("data", {}).get("userProgressQuestionList")
+        if progress is None:
+            raise RuntimeError(
+                "LeetCode returned null for userProgressQuestionList. "
+                "Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."
+            )
+        batch = progress["questions"]
 
         if not batch:
             break
@@ -102,7 +110,13 @@ def fetch_accepted_submissions(slug):
         }
 
         data = safe_post(payload, f"Fetch Submissions: {slug}")
-        result = data["data"]["userProgressSubmissionList"]
+        # result = data["data"]["userProgressSubmissionList"]
+        result = data.get("data", {}).get("userProgressSubmissionList")
+        if result is None:
+            raise RuntimeError(
+                f"LeetCode returned null for userProgressSubmissionList ({slug}). "
+                "Refresh LEETCODE_SESSION and CSRF_TOKEN."
+            )
 
         for sub in result["submissions"]:
             if sub["status"] == 10:
@@ -135,4 +149,11 @@ def fetch_submission_code(submission_id):
     data = safe_post(payload, f"Fetch Code: {submission_id}")
     human_delay()
 
-    return data["data"]["submissionDetails"]["code"]
+    # return data["data"]["submissionDetails"]["code"]
+    details = data.get("data", {}).get("submissionDetails")
+    if details is None:
+        raise RuntimeError(
+            f"LeetCode returned null for submissionDetails ({submission_id}). "
+            "Refresh LEETCODE_SESSION and CSRF_TOKEN."
+        )
+    return details["code"]
