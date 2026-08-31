@@ -4,6 +4,15 @@ All notable changes to `leetcode-sync-tool` are tracked here.
 
 When changes are made directly on the `main` branch, add them under the appropriate date block. Multiple changes on the same day should stay grouped under that date.
 
+## 2026-09-01
+
+- Added multi-language support so archived submission filenames use the correct file extension for each submission's programming language, instead of hardcoding `.cpp`.
+- Added `lang` to the `userProgressSubmissionList` GraphQL query in `archiver/leetcode_api.py` so each submission's language is available without an extra API call.
+- Added a `LANGUAGE_EXTENSIONS` mapping in `archiver/config.py` translating LeetCode `lang` values (e.g. `cpp`, `python3`, `java`, `sql`) to file extensions.
+- Updated `archiver/archiver.py` to resolve the file extension from the submission's `lang` field, falling back to `.txt` for unknown or missing languages.
+- Added `tests/` with unit tests covering language-to-extension mapping and filename resolution.
+- Backward compatible: existing archived files are untouched, commit messages are unchanged, and idempotency still holds via the unique submission ID.
+
 ## 2026-06-25
 
 - Fixed a `TypeError` when LeetCode returns `null` for `userProgressQuestionList` (expired or invalid session cookies).

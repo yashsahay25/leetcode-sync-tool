@@ -93,11 +93,13 @@ leetcode-sync-tool/
 
 ## Idempotency
 
-Each accepted submission is written with the LeetCode submission ID in the filename:
+Each accepted submission is written with the LeetCode submission ID in the filename, using the file extension for its language:
 
 ```text
-<problemId>_<slug>_<submissionId>.cpp
+<problemId>_<slug>_<submissionId>.<ext>
 ```
+
+The extension is resolved from the submission's `lang` field (e.g. `.cpp`, `.py`, `.java`, `.sql`), falling back to `.txt` for unknown or missing languages.
 
 Before writing a file, the sync checks whether that filename already exists:
 
