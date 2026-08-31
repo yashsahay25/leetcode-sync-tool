@@ -67,6 +67,7 @@ def fetch_accepted_submissions(slug):
                   id
                   status
                   timestamp
+                  lang
                 }
                 totalNum
               }

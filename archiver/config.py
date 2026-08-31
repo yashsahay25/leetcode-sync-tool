@@ -22,6 +22,35 @@ MAX_RETRIES = 10
 COOLING_INTERVAL = 25
 COOLING_DURATION = 30
 
+# Language to file extension mapping (LeetCode `lang` -> extension)
+LANGUAGE_EXTENSIONS = {
+    "cpp": ".cpp",
+    "c": ".c",
+    "python": ".py",
+    "python3": ".py",
+    "pypy3": ".py",
+    "java": ".java",
+    "javascript": ".js",
+    "typescript": ".ts",
+    "csharp": ".cs",
+    "go": ".go",
+    "rust": ".rs",
+    "kotlin": ".kt",
+    "swift": ".swift",
+    "ruby": ".rb",
+    "php": ".php",
+    "scala": ".scala",
+    "dart": ".dart",
+    "erlang": ".erl",
+    "elixir": ".ex",
+    "racket": ".rkt",
+    "mysql": ".sql",
+    "mssql": ".sql",
+    "oraclesql": ".sql",
+    "pandas": ".py",
+} 
+
+
 # Authentication Error Message
 AUTH_ERROR_MESSAGE = (
     "Authentication failed. Refresh LEETCODE_SESSION and CSRF_TOKEN in GitHub secrets."

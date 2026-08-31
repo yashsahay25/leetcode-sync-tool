@@ -118,7 +118,8 @@ Every accepted submission is keyed by its LeetCode submission ID.
 
 ```mermaid
 flowchart TD
-    A["Accepted submission"] --> B["Build filename: <problemId>_<slug>_<submissionId>.cpp"]
+    A["Accepted submission"] --> A1["Resolve extension from lang"]
+    A1 --> B["Build filename: <problemId>_<slug>_<submissionId><ext>"]
     B --> C{"Does file already exist in archive checkout?"}
     C -->|"Yes"| D["Skip"]
     C -->|"No"| E["Fetch source code"]
@@ -126,7 +127,7 @@ flowchart TD
     F --> G["Commit file with original submission timestamp"]
 ```
 
-Because `submissionId` is included in the filename, multiple accepted submissions for the same problem can coexist. Already archived submissions are skipped on later runs because their files are already present in the archive checkout.
+Each submission's file extension is derived from its LeetCode `lang` field via `LANGUAGE_EXTENSIONS` in `archiver/config.py`; unrecognized or missing languages fall back to `.txt`. Because `submissionId` is included in the filename, multiple accepted submissions for the same problem can coexist. Already archived submissions are skipped on later runs because their files are already present in the archive checkout.
 
 ## Authentication And Permissions
 
