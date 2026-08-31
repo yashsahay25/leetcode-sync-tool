@@ -6,7 +6,12 @@ from .leetcode_api import (
     fetch_submission_code,
 )
 from .git_manager import commit_file
-from .config import COOLING_INTERVAL, COOLING_DURATION, validate_auth_config
+from .config import (
+    COOLING_INTERVAL,
+    COOLING_DURATION,
+    LANGUAGE_EXTENSIONS,
+    validate_auth_config,
+)
 from .logger import log
 
 
@@ -36,7 +41,9 @@ def run_archiver():
             submission_id = sub["id"]
             timestamp = sub["timestamp"]
 
-            filename = f"{int(frontend_id):05d}_{slug}_{submission_id}.cpp"
+            extension = LANGUAGE_EXTENSIONS.get(sub.get("lang", ""), ".txt")
+
+            filename = f"{int(frontend_id):05d}_{slug}_{submission_id}{extension}"
 
             if os.path.exists(filename):
                 log(f"Skipping existing: {filename}")
